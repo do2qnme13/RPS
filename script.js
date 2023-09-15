@@ -1,9 +1,18 @@
 const arr = ["rock","paper","scissors"];
+const buttons = document.querySelectorAll('button');
+const playerScoreText = document.querySelector('.playerScoreText');
+const computerScoreText = document.querySelector('.computerScoreText');
+const roundText = document.querySelector('.roundText');
+const resultText = document.querySelector('.resultText');
+
 let computerScore = 0;
 let playerScore = 0;
+let playerSelection;
+let computerSelection;
+let rounds = 0;
 
 
-  
+
 function playRound(playerSelection, computerSelection) {
   if (computerSelection === playerSelection) {
     computerScore = computerScore;
@@ -29,34 +38,35 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 function getcomputerSelection() {
-  let num = Math.floor(Math.random()* arr.length);
+  let num = Math.floor(Math.random()* arr.length) + 1;
   let computerSelection = arr[num];
   return computerSelection;
 }
 
-const game = () => {
-  const playerSelection = prompt("Choose: ");
-  const computerSelection = getcomputerSelection(); 
-  playRound(playerSelection, computerSelection)
-  console.log(playerSelection);
-  console.log(computerSelection);
-  console.log("-----------------")
-}
+function game(e){
+  if (rounds < 5) {
+    playerSelection = e.target.id;
+    computerSelection = getcomputerSelection(); 
+    playRound(playerSelection, computerSelection)
+    rounds++;
+    playerScoreText.textContent = playerScore;
+    computerScoreText.textContent = computerScore;
+    roundText.textContent = rounds;
 
-for ( let i = 0 ; i < 5; i++) {
-  if(i < 5) {
-    game();
+  } else if(rounds = 5) {
+    result();
   }
 }
 
 
-
-if(playerScore > computerScore) {
-  console.log("You Win!");
-} else if (playerScore < computerScore) {
-  console.log('You Lose!');
-}else {
-  console.log("It's a Draw!");
+function result() {
+  if(playerScore > computerScore) {
+    resultText.textContent = "You Win!";
+  } else if (playerScore < computerScore) {
+    resultText.textContent ='You Lose!';
+  }else {
+    resultText.textContent = "It's a Draw!";
+  }
+  
 }
-console.log(playerScore);
-console.log(computerScore);
+buttons.forEach(button => button.addEventListener('click', game)) 
